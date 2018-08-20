@@ -39,6 +39,8 @@ Ablauf:
     - [Connect the MQTT Server to openHab2](#connect-the-mqtt-server-to-openhab2)
     - [Add Things](#add-things)
   - [Access your SmartHome Remotely](#access-your-smarthome-remotely)
+  - [Configuring nodeRed](#configuring-nodered)
+    - [Create a Static directory](#create-a-static-directory)
 
 <!-- /TOC -->
 
@@ -251,3 +253,29 @@ Go back to to [MyOpenHAB](https://myopenhab.org/), make sure that you are logged
 
 
 You will see the familiar UI when you navigate to https://home.myopenhab.org/start/index. You can use this login on the web, on [Android](https://play.google.com/store/apps/details?id=org.openhab.habdroid), [iOS](https://itunes.apple.com/us/app/openhab/id492054521?mt=8) and [Window Phone / Metro](https://www.microsoft.com/en-us/p/openhab/9nmq39ctwxgt).
+
+
+## Configuring nodeRed
+
+### Create a Static directory
+
+TO work with __static files__ directly in __nodeRed__, open the __settings.js__ in `\Users\<Username>\.node-red`. Add the following line to the top of the document:
+
+```js
+var path = require("path");
+```
+
+Add a folder named __static__ to `.node-red` and change the default staticHTTP path to the following:
+
+```js
+//httpStatic: '/home/nol/node-red-static/',
+httpStatic: path.join(__dirname,'static'),
+```
+
+![nodeRed](./nodeRED_04.png)
+
+Restart nodeRed and test if everything is working, by adding an image file to the newly created __static__ folder (e.g. test.png) and open it via the nodeRed URL on port _1880_ - the image should be displayed in your browser window:
+
+```
+http://127.0.0.1:1880/test.png
+```
