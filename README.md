@@ -1,27 +1,5 @@
 # Home Automation and IP Cameras
 
-<!-- https://www.heise.de/developer/artikel/Kommunikation-ueber-MQTT-3238975.html
-
-hier mal eine kleine Anleitung, um die Open Source Automatisierungssoftware openHAB zu benachrichtigen, wenn eine Bewegung bei der Instar-Kamera stattfindet.
-Ich verwende folgende Komponenten:
-• IN 9088 FullHD (geht mit allen Instars, die einen Alarmserver konfigurieren können)
-• openHAB in Form vom Openhabian-Image für den Raspberry Pi
-• Mosquitto MQTT Server (schon vorinstalliert bei Openhabian)
-• Node-Red (ebenfalls vorinstalliert bei Openhabian)
-
-Ablauf:
-1) MQTT Server aktivieren: (sudo openhabian-config -> optional Components -> Mosquitto) https://www.youtube.com/watch?v=7YR0xwyBJ2E
-2) Node-Red aktivieren (sudo openhabian-config -> optional Components -> NodeRED)
-3) Flow anlegen und folgendes importieren, um von HTTP GET (Instar Alarmserverkonfig.) auf MQTT Publish (brauchbar mit openHAB) umzuwandeln (Screenshot):
-
-[{"id":"2dc67579.0dceda","type":"http in","z":"db1545e9.9e99f8","name":"Instar Cam 1","url":"/instar1","method":"get","upload":false,"swaggerDoc ":"","x":530,"y":260,"wires":[["fb3f1441.6d2008"]],"outputLabels":["123"]},{"id":"fb3f1441.6d2008","type":"mqtt out","z":"db1545e9.9e99f8","name":"instarPub","to p ic":"/instar","qos":"1","retain":"","broker":"f92e2ffa.b a5a4","x":860,"y":400,"wires":[]},{"id":"f92e2ffa.ba5a4","type":"mqtt-broker","z":"","name":"openHAB-MQTT","broker":"localhost","port":"1883","clientid ":"node-red_MQTT","usetls":false,"compatmode":true,"keepal ive":"60","cleansession":true,"birthTopic":"","bi r thQos":"0","birthPayload":"","closeTopic":"","clos eQos":"0","closePayload":"","willTopic":"","willQo s":"0","willPayload":""}]
-
-4) Alarmserver in der Instar-Kamera konfigurieren (Screenshot)
-5) Mit MQTT die Topic "/instar" subscriben und testen, ob was ankommt (zb mit MQTTfx für Windows)
-6) In openHAB Item für MQTT-Topic "/instar" anlegen und rules definieren (zb IF Besitzer zu Hause AND zwischen 00:00 und 07:00 Uhr AND Alarm von Kamera 1 THEN send Telegram-Message mit Kamerabild an Handy)
-
--->
-
 <!-- TOC -->
 
 - [Home Automation and IP Cameras](#home-automation-and-ip-cameras)
@@ -279,3 +257,65 @@ Restart nodeRed and test if everything is working, by adding an image file to th
 ```
 http://127.0.0.1:1880/test.png
 ```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- https://www.heise.de/developer/artikel/Kommunikation-ueber-MQTT-3238975.html
+
+hier mal eine kleine Anleitung, um die Open Source Automatisierungssoftware openHAB zu benachrichtigen, wenn eine Bewegung bei der Instar-Kamera stattfindet.
+Ich verwende folgende Komponenten:
+• IN 9088 FullHD (geht mit allen Instars, die einen Alarmserver konfigurieren können)
+• openHAB in Form vom Openhabian-Image für den Raspberry Pi
+• Mosquitto MQTT Server (schon vorinstalliert bei Openhabian)
+• Node-Red (ebenfalls vorinstalliert bei Openhabian)
+
+Ablauf:
+1) MQTT Server aktivieren: (sudo openhabian-config -> optional Components -> Mosquitto) https://www.youtube.com/watch?v=7YR0xwyBJ2E
+2) Node-Red aktivieren (sudo openhabian-config -> optional Components -> NodeRED)
+3) Flow anlegen und folgendes importieren, um von HTTP GET (Instar Alarmserverkonfig.) auf MQTT Publish (brauchbar mit openHAB) umzuwandeln (Screenshot):
+
+[{"id":"2dc67579.0dceda","type":"http in","z":"db1545e9.9e99f8","name":"Instar Cam 1","url":"/instar1","method":"get","upload":false,"swaggerDoc ":"","x":530,"y":260,"wires":[["fb3f1441.6d2008"]],"outputLabels":["123"]},{"id":"fb3f1441.6d2008","type":"mqtt out","z":"db1545e9.9e99f8","name":"instarPub","to p ic":"/instar","qos":"1","retain":"","broker":"f92e2ffa.b a5a4","x":860,"y":400,"wires":[]},{"id":"f92e2ffa.ba5a4","type":"mqtt-broker","z":"","name":"openHAB-MQTT","broker":"localhost","port":"1883","clientid ":"node-red_MQTT","usetls":false,"compatmode":true,"keepal ive":"60","cleansession":true,"birthTopic":"","bi r thQos":"0","birthPayload":"","closeTopic":"","clos eQos":"0","closePayload":"","willTopic":"","willQo s":"0","willPayload":""}]
+
+4) Alarmserver in der Instar-Kamera konfigurieren (Screenshot)
+5) Mit MQTT die Topic "/instar" subscriben und testen, ob was ankommt (zb mit MQTTfx für Windows)
+6) In openHAB Item für MQTT-Topic "/instar" anlegen und rules definieren (zb IF Besitzer zu Hause AND zwischen 00:00 und 07:00 Uhr AND Alarm von Kamera 1 THEN send Telegram-Message mit Kamerabild an Handy)
+
+-->
