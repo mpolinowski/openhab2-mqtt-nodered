@@ -33,17 +33,32 @@ First we need to [Download](https://java.com/en/) and install the JAVA Developme
 
 `System and Security ➡️ System ➡️ Advanced System Settings ➡️ Environment Variables ➡️ System Variables`
 
+
+---
+
 ![Set JAVA_HOME](./openhab2_01.png)
+
+---
 
 
 Open the Windows Control Panel, go to the __Advanced System Settings__ and open the __Environment Variables__.
 
+
+---
+
 ![Set JAVA_HOME](./openhab2_02.png)
+
+---
 
 
 Select to set a new System variable __JAVA_HOME__ and point to your JAVA installation path (that _might differ_ from the one shown below): 
 
+
+---
+
 ![Set JAVA_HOME](./openhab2_03.png)
+
+---
 
 
 ### Installation
@@ -53,12 +68,22 @@ Select to set a new System variable __JAVA_HOME__ and point to your JAVA install
 
 To start the server launch the runtime by executing the script `C:\openhab230\start.bat`:
 
+
+---
+
 ![openhab2](./openhab2_04.png)
+
+---
 
 
 Point your browser to `http://localhost:8080`. You should be looking at the openHAB [package selection](https://docs.openhab.org/configuration/packages.html) page:
 
+
+---
+
 ![openhab2](./openhab2_05.png)
+
+---
 
 
 ## nodeRED on Windows
@@ -72,7 +97,12 @@ Download the latest version of Node.js from the official [Node.js home](https://
 
 `node -v && npm -v`
 
+
+---
+
 ![nodeRED](./nodeRED_01.png)
+
+---
 
 
 ### Installing nodeRED
@@ -88,13 +118,26 @@ Once installed, the simple way to run Node-RED is to use the node-red command in
 
 `node-red`
 
+
+---
+
 ![nodeRED](./nodeRED_02.png)
+
+---
 
 
 Point your browser to `http://localhost:1880/`. You should be looking at the nodeRED interface:
 
+
+---
+
 ![nodeRED](./nodeRED_03.png)
 
+---
+
+For more information check out our [Node-RED Guide](/Advanced_User/Node-RED_and_MQTT/)
+
+<br/><br/>
 
 ## Mosquitto on Windows
 
@@ -106,42 +149,88 @@ The MQTT protocol provides a lightweight method of carrying out messaging using 
 
 First we need to [Download](https://mosquitto.org/download/) the latest binary and execute it:
 
+
+---
+
 ![Mosquitto MQTT](./Mosquitto_01.png)
+
+---
 
 
 The Installer will ask to download and install the latest version of [Win32OpenSSL](http://slproweb.com/products/Win32OpenSSL.html) and copy all `.dll`'s to the Mosquitto install directory:
 
+
+---
+
 ![Mosquitto MQTT](./Mosquitto_02.png)
 
+---
+
 ![Mosquitto MQTT](./Mosquitto_03.png)
+
+---
 
 
 And the same with [this pthread.dll](ftp://sources.redhat.com/pub/pthreads-win32/dll-latest/dll/x86/):
 
+
+---
+
 ![Mosquitto MQTT](./Mosquitto_04.png)
+
+---
+
 
 ### Testing the MQTT Server with MQTT.fx
 
 [Download MQTT.fx](https://mqttfx.jensd.de/index.php/download) as a MQTT Client for MQTT testing/debugging. Install and start the program and connect it to our local MQTT server:
 
+
+
+---
+
 ![Mosquitto MQTT](./Mosquitto_05.png)
+
+---
 
 ![Mosquitto MQTT](./Mosquitto_06.png)
 
+---
+
+
 ![Mosquitto MQTT](./Mosquitto_07.png)
+
+---
 
 
 We can test the MQTT Service by __subscribing__:
 
+
+---
+
 ![Mosquitto MQTT](./Mosquitto_08.png)
+
+---
+
 
 Going back to the __Publish__ tab and sending a message:
 
+
+---
+
 ![Mosquitto MQTT](./Mosquitto_09.png)
+
+---
+
 
 The message should show up in the __Subscribe__ tab:
 
+
+---
+
 ![Mosquitto MQTT](./Mosquitto_10.png)
+
+---
 
 
 ## OpenHAB2 Configuration
@@ -153,14 +242,59 @@ The configuration files for open hub can be found in the __./conf__ directory of
 
 Go back to `http://localhost:8080` and select the PaperUI, go to Add-ons and search for MQTT-bindings inside the __Bindings__ tab - in my case this was already installed, if not, hit install:
 
+
+---
+
 ![Mosquitto MQTT](./Mosquitto_11.png)
+
+---
 
 
 Now go to the openHAB2 install dir - if you followed this guide, this will be `C:\openhab230\conf\services` and open the __mqtt.cfg__:
 
+
+---
+
 ![Mosquitto MQTT](./Mosquitto_12.png)
 
-Add the MQTT URL as follows: `broker.url=tcp://localhost:1883`
+---
+
+
+Add the MQTT URL as follows: `mosquitto.url=tcp://localhost:1883` (The broker name - in our case we choose _mosquitto_ - can be choosen freely). Make sure that you set all MQTT Server variables according to your MQTT Server configuration in Node-RED - e.g.:
+
+```
+mosquitto.url=tcp://localhost:1883
+mosquitto.clientId=openhab2
+mosquitto.user=mosquitto
+mosquitto.pwd=asolidpassword
+mosquitto.qos=1
+mosquitto.retain=false
+mosquitto.async=true
+```
+
+
+You can double-click a MQTT-Node in your Node-RED flows to check and edit your configuration:
+
+
+---
+
+![Mosquitto MQTT](./nodeRED_05.png)
+
+---
+
+
+---
+
+![Mosquitto MQTT](./nodeRED_06.png)
+
+---
+
+
+---
+
+![Mosquitto MQTT](./nodeRED_07.png)
+
+---
 
 
 ### Add Things
@@ -174,10 +308,10 @@ To be able to access things - such as a light switch - we need to add them to an
 // This is the Items File
 
 //Demo items
-Switch DEMOSW "Demo Switch"
+Switch MyFirstSwitch "Demo Switch"
 ```
 
-In this case __Switch__ will be the type of item we add, __DEMOSW__ is it's name and __Demo Switch__ will be used as it's lable.
+In this case __Switch__ will be the type of item we add, __MyFirstSwitch__ is it's name and __Demo Switch__ will be used as it's lable.
 
 
 Now we have to add the switch to our user interface, by adding a __office.sitemap__ file in `C:\openhab230\conf\sitemap`. The sitemap file is how you interact with the devices or the user interface:
@@ -188,7 +322,7 @@ sitemap home label="INSTAR - SmartOffice"
 {
        Frame label="Demo"
        {
-               Switch item=DEMOSW
+               Switch item=__MyFirstSwitch__
        }
 }
 ```
@@ -196,17 +330,32 @@ sitemap home label="INSTAR - SmartOffice"
 To activate the sitemap go to __Configuration__ and __Services__, choose __UI__ and select to configure the __Basic UI__:
 
 
+---
+
 ![openHAB2](./openhab2_06.png)
+
+---
+
 
 Type in the name of your sitemap - we used __office__ - and click __Save__. You can then repeat this step with the __CLassic UI__:
 
 
+---
+
 ![openHAB2](./openhab2_07.png)
+
+---
+
 
 You can now open the __Basic UI__ in a new tab `http://localhost:8080/basicui/app` and see the switch we just created:
 
 
+---
+
 ![openHAB2](./openhab2_08.png)
+
+---
+
 
 To add functionality to our switch, we need to add a __office.rules__ file in `C:\openhab230\conf\rules`. This is the file that does all the automation.
 
@@ -214,20 +363,49 @@ To add functionality to our switch, we need to add a __office.rules__ file in `C
 ## Access your SmartHome Remotely
 
 
+---
+
 ![openHAB2](./openhab2_09.png)
 
 
+---
+
 ![openHAB2](./openhab2_10.png)
+
+---
+
 
 You can use the [OpenHAB Cloud](https://myopenhab.org/users) to access your Smarthome over the internet. Just use your Email Address and Password + __UUID__ and __Secret__ of your OpenHAB installation - the latter can be found under `./userdata/uuid` and `./userdata/openhabcloud/secret`
 
 
+
+---
+
 ![openHAB2](./openhab2_11.png)
+
+---
+
+
+If you cannot find those files, make sure that the openHAB CLoud Connector is installed by going to `http://localhost:8080/paperui`, choose __Addons__ and __Misc__. Search for _Cloud_ to find the Addon and install it:
+
+
+
+---
+
+![openHAB2](./openhab2_13.png)
+
+---
+
 
 
 Go back to to [MyOpenHAB](https://myopenhab.org/), make sure that you are logged in, and you will see a __Online__ notification on the top right - if not, stop and restart the OpenHAB service from your console and refresh the webpage. 
 
+
+---
+
 ![openHAB2](./openhab2_12.png)
+
+---
 
 
 You will see the familiar UI when you navigate to https://home.myopenhab.org/start/index. You can use this login on the web, on [Android](https://play.google.com/store/apps/details?id=org.openhab.habdroid), [iOS](https://itunes.apple.com/us/app/openhab/id492054521?mt=8) and [Window Phone / Metro](https://www.microsoft.com/en-us/p/openhab/9nmq39ctwxgt).
@@ -250,7 +428,13 @@ Add a folder named __static__ to `.node-red` and change the default staticHTTP p
 httpStatic: path.join(__dirname,'static'),
 ```
 
+
+---
+
 ![nodeRed](./nodeRED_04.png)
+
+---
+
 
 Restart nodeRed and test if everything is working, by adding an image file to the newly created __static__ folder (e.g. test.png) and open it via the nodeRed URL on port _1880_ - the image should be displayed in your browser window:
 
